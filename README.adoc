@@ -1,6 +1,7 @@
 ---
 tags: [rest]
 projects: [spring-framework]
+travis-ci: https://travis-ci.org/nabbl/jasper-reporting-service[travis-ci]
 ---
 :spring_version: current
 :toc:
