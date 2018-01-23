@@ -33,3 +33,11 @@ http://localhost:8080/reports/rpt_example/?format=pdf&id=1
 == What you'll need
 
 :java_version: 1.8
+:maven: >3
+
+== How to run it
+
+:mvn package
+:It's generating a JAR-file (e.g. jasper-reporting-service-0.1.0.jar) in the target directory
+:run with: "java -jar target/jasper-reporting-service-0.1.0.jar"
+:test with: http://localhost:8080/reports/rpt_example/?format=pdf&id=1
