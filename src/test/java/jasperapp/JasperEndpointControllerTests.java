@@ -21,15 +21,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,8 +47,71 @@ public class JasperEndpointControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    @Qualifier("dataSource")
+    private DataSource dataSource;
+
+    @Before
+    public void initializeDB () {
+        Connection connection;
+        try {
+            connection = dataSource.getConnection();
+            try {
+
+                PreparedStatement cleanPreparedStatement = null;
+                PreparedStatement createPreparedStatement = null;
+                PreparedStatement insertPreparedStatement = null;
+                PreparedStatement selectPreparedStatement = null;
+
+                String CleanQuery = "DROP TABLE PERSON";
+                String CreateQuery = "CREATE TABLE PERSON(id int primary key, name varchar(255))";
+                String InsertQuery = "INSERT INTO PERSON" + "(id, name) values" + "(?,?)";
+                String SelectQuery = "select * from PERSON";
+
+                cleanPreparedStatement = connection.prepareStatement(CleanQuery);
+                cleanPreparedStatement.executeUpdate();
+                cleanPreparedStatement.close();
+
+                createPreparedStatement = connection.prepareStatement(CreateQuery);
+                createPreparedStatement.executeUpdate();
+                createPreparedStatement.close();
+
+                connection.setAutoCommit(false);
+
+                insertPreparedStatement = connection.prepareStatement(InsertQuery);
+                insertPreparedStatement.setInt(1, 1);
+                insertPreparedStatement.setString(2, "Jose");
+                insertPreparedStatement.executeUpdate();
+                insertPreparedStatement.close();
+
+                insertPreparedStatement = connection.prepareStatement(InsertQuery);
+                insertPreparedStatement.setInt(1, 2);
+                insertPreparedStatement.setString(2, "Obelix");
+                insertPreparedStatement.executeUpdate();
+                insertPreparedStatement.close();
+
+                selectPreparedStatement = connection.prepareStatement(SelectQuery);
+                ResultSet rs = selectPreparedStatement.executeQuery();
+                System.out.println("H2 Database inserted through PreparedStatement");
+                while (rs.next()) {
+                    System.out.println("Id " + rs.getInt("id") + " Name " + rs.getString("name"));
+                }
+                selectPreparedStatement.close();
+
+                connection.commit();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
-    public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
+    public void gettingReportsShouldReturnDefaultMessage() throws Exception {
 
         this.mockMvc.perform(get("/reports/rpt_example/?format=pdf&id=0")).andDo(print()).andExpect(status().isOk());
     }
