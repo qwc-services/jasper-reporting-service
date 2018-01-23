@@ -6,15 +6,16 @@ jdk:
 - oraclejdk8
 
 before_deploy:
-  - export RELEASE_PKG_FILE=$(ls *.jar)
   - git config --local user.name "nabbl"
   - git config --local user.email "dakappler@gmail.com"
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+
 deploy:
   provider: releases
   api_key: "${GH_TOKEN}"
   file_glob: true
-  file: "target/${RELEASE_PKG_FILE}"
+  file: "target/*.jar"
   skip_cleanup: true
   on:
     branch: release
+    tags: true
