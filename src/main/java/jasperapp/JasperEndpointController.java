@@ -23,7 +23,7 @@ public class JasperEndpointController {
     @Qualifier("dataSource")
     private DataSource dataSource;
 
-    /* Example http://localhost:8080/reports/rpt_example/?format=pdf&id=0 */
+    /* Example http://localhost:8080/reports/rpt_example/?format=pdf&personid=0 */
 
     @RequestMapping(value = "/{reportname}/**", method = RequestMethod.GET)
     public ModelAndView getRptByParam(final ModelMap modelMap, ModelAndView modelAndView, @PathVariable("reportname") final String reportname,  HttpServletRequest request) {

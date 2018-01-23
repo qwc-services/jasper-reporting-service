@@ -63,7 +63,7 @@ public class JasperEndpointControllerTests {
                 PreparedStatement insertPreparedStatement = null;
                 PreparedStatement selectPreparedStatement = null;
 
-                String CleanQuery = "DROP TABLE PERSON";
+                String CleanQuery = "DROP TABLE IF EXISTS PERSON";
                 String CreateQuery = "CREATE TABLE PERSON(id int primary key, name varchar(255))";
                 String InsertQuery = "INSERT INTO PERSON" + "(id, name) values" + "(?,?)";
                 String SelectQuery = "select * from PERSON";

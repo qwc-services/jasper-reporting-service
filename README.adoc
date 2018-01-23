@@ -1,7 +1,6 @@
 ---
 tags: [rest]
 projects: [spring-framework]
-experimental: Try the code inside your browser with -> http://beta.codenvy.com/f?id=9fq0busbm3tz7i8c
 ---
 :spring_version: current
 :toc:
@@ -11,24 +10,24 @@ experimental: Try the code inside your browser with -> http://beta.codenvy.com/f
 :icons: font
 :source-highlighter: prettify
 
-This guide walks you through the process of creating a "jasperapp world" link:/understanding/REST[RESTful web service] with Spring.
-
 == What you'll build
 
 You'll build a service that will accept HTTP GET requests at:
 
 ----
-http://localhost:8080/reports/rpt_example/?format=pdf&id=0
+http://localhost:8080/reports/rpt_example/?format=pdf&personid=0
 ----
 
 and respond with a link:Jasper Report Document in the format you specified
 
 
-You can customize the greeting with an optional `id` parameter in the query string:
+You can customize the request with optional `parameters` in the query string:
 
 ----
-http://localhost:8080/reports/rpt_example/?format=pdf&id=1
+http://localhost:8080/reports/rpt_example/?format=pdf&personid=1&param1=test&param2=tester
 ----
+
+It is important that these parameters are supported in the SQL query string in the underlying `.jrxml` Jasper template
 
 == What you'll need
 
