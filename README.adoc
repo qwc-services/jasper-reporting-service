@@ -32,8 +32,8 @@ http://localhost:8080/reports/rpt_example/?format=pdf&id=1
 
 == What you'll need
 
-:java_version: 1.8:
-:maven: >3:
+- java_version: 1.8
+- maven: >3:
 
 == How to run it
 
