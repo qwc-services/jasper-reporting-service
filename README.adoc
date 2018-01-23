@@ -40,11 +40,12 @@ It is important that these parameters are supported in the SQL query string in t
 
 == How to run it
 
-use the following command in the cloned directory
 
----
+use the following command in the cloned directory:
+
+----
 mvn package
----
+----
 
 It's generating a JAR-file (e.g. jasper-reporting-service-0.1.0.jar) in the target directory
 
