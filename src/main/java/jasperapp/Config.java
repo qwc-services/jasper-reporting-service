@@ -55,6 +55,9 @@ public class Config extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
+    // For local Test only:
+
+    /*
     @Component
     public class StartUpInit {
         @Autowired
@@ -120,5 +123,5 @@ public class Config extends WebMvcConfigurerAdapter {
                 e.printStackTrace();
             }
         }
-    }
+    } */
 }
