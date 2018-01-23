@@ -25,14 +25,14 @@ public class JasperEndpointController {
     /* Example http://localhost:8080/reports/rpt_example/?format=pdf&id=0 */
 
     @RequestMapping(value = "{reportname}", method = RequestMethod.GET)
-    public ModelAndView getRptByParam(final ModelMap modelMap, ModelAndView modelAndView, @PathVariable("reportname") final String reportname, @RequestParam(FILE_FORMAT) final String format, @RequestParam("id") final Integer id) {
+    public ModelAndView getRptByParam(final ModelMap modelMap, ModelAndView modelAndView, @PathVariable("reportname") final String reportname, @RequestParam(FILE_FORMAT) final String format, @RequestParam("id") final String id) {
 
         // connecting to H2
         modelMap.put(DATASOURCE, dataSource);
         modelMap.put(FILE_FORMAT, format);
 
-        // WIP: This doesn't seem to work yet.
-        modelMap.put("ID", id);
+        // Add Parameters you wish to query for here (and of course in the jrxml. file...)
+        modelMap.put("personid", id);
 
         modelAndView = new ModelAndView(reportname, modelMap);
         return modelAndView;
