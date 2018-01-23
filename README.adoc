@@ -10,6 +10,10 @@ projects: [spring-framework]
 :icons: font
 :source-highlighter: prettify
 
+== Travis-CI
+
+image:https://travis-ci.org/nabbl/jasper-reporting-service.svg?branch=master["Build Status", link="https://travis-ci.org/nabbl/jasper-reporting-service"]
+
 == What you'll build
 
 You'll build a service that will accept HTTP GET requests at:
@@ -56,6 +60,3 @@ test with
 http://localhost:8080/reports/rpt_example/?format=pdf&id=1
 ----
 
-== Travis-CI
-
-https://travis-ci.org/nabbl/jasper-reporting-service[travis-ci]
