@@ -1,7 +1,6 @@
 ---
 tags: [rest]
 projects: [spring-framework]
-travis-ci: https://travis-ci.org/nabbl/jasper-reporting-service[travis-ci]
 ---
 :spring_version: current
 :toc:
@@ -56,3 +55,7 @@ test with
 ----
 http://localhost:8080/reports/rpt_example/?format=pdf&id=1
 ----
+
+== Travis-CI
+
+https://travis-ci.org/nabbl/jasper-reporting-service[travis-ci]
