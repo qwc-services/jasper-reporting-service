@@ -24,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -109,7 +110,9 @@ public class JasperEndpointControllerTests {
     @Test
     public void gettingReportsShouldReturnDefaultMessage() throws Exception {
 
-        this.mockMvc.perform(get("/reports/rpt_example/?format=pdf&personid=1")).andDo(print()).andExpect(status().isOk());
+        MvcResult mvcResult = this.mockMvc.perform(get("/reports/rpt_example/?format=csv&personid=1")).andDo(print()).andExpect(status().isOk()).andReturn();
+        String content = mvcResult.getResponse().getContentAsString();
+        System.out.println(content);
     }
 
 

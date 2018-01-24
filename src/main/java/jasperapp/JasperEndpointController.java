@@ -35,16 +35,10 @@ public class JasperEndpointController {
 
         // connecting to H2
         modelMap.put(DATASOURCE, dataSource);
-        String format = modelMap.entrySet().stream()
-                .filter(e -> e.getValue().equals("format"))
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElse("pdf");
 //
         map.forEach( (String k, String[] v) -> modelMap.put(k, v[0]));
 
         //It is important that the underlying Jasper Report supports the Query parameters
-        modelMap.put(FILE_FORMAT, format);
 
         modelAndView = new ModelAndView(reportname, modelMap);
         return modelAndView;

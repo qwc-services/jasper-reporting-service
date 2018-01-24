@@ -1,7 +1,6 @@
 package jasperapp;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
@@ -11,15 +10,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView;
 import org.springframework.web.servlet.view.jasperreports.JasperReportsViewResolver;
 
-import javax.servlet.ServletContext;
-
 
 @Configuration
 //@EnableWebMvc
 public class Config extends WebMvcConfigurerAdapter {
-
-    @Autowired
-    private ServletContext context;
 
     @Override
     public void configureDefaultServletHandling(final DefaultServletHandlerConfigurer configurer) {
