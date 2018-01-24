@@ -34,6 +34,8 @@ public class Config extends WebMvcConfigurerAdapter {
         resolver.setReportDataKey("datasource");
         resolver.setViewNames("rpt_*");
         resolver.setViewClass(JasperReportsMultiFormatView.class);
+
+
         resolver.setOrder(0);
         return resolver;
     }
