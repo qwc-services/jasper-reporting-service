@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -59,10 +58,10 @@ public class JasperEndpointControllerTests {
             connection = dataSource.getConnection();
             try {
 
-                PreparedStatement cleanPreparedStatement = null;
-                PreparedStatement createPreparedStatement = null;
-                PreparedStatement insertPreparedStatement = null;
-                PreparedStatement selectPreparedStatement = null;
+                PreparedStatement cleanPreparedStatement;
+                PreparedStatement createPreparedStatement;
+                PreparedStatement insertPreparedStatement;
+                PreparedStatement selectPreparedStatement;
 
                 String CleanQuery = "DROP TABLE IF EXISTS PERSON";
                 String CreateQuery = "CREATE TABLE PERSON(id int primary key, name varchar(255))";
@@ -122,33 +121,25 @@ public class JasperEndpointControllerTests {
     @Test
     public void gettingReportsShouldReturnTheCorrectFormat() throws Exception {
         /* HTML */
-        this.mockMvc.perform(get("/reports/rpt_example/?format=html&personid=1")
-                .accept(MediaType.TEXT_HTML)
-                .contentType(MediaType.TEXT_HTML_VALUE))
+        this.mockMvc.perform(get("/reports/rpt_example/?format=html&personid=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html"));
 
         /* CSV */
-        this.mockMvc.perform(get("/reports/rpt_example/?format=csv&personid=1")
-                .accept(MediaType.TEXT_PLAIN)
-                .contentType(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(get("/reports/rpt_example/?format=csv&personid=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/csv"));
 
         /* PDF */
-        this.mockMvc.perform(get("/reports/rpt_example/?format=pdf&personid=1")
-                .accept(MediaType.TEXT_PLAIN)
-                .contentType(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(get("/reports/rpt_example/?format=pdf&personid=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/pdf"));
 
         /* CSV */
-        this.mockMvc.perform(get("/reports/rpt_example/?format=xls&personid=1")
-                .accept(MediaType.TEXT_PLAIN)
-                .contentType(MediaType.APPLICATION_XML))
+        this.mockMvc.perform(get("/reports/rpt_example/?format=xls&personid=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/vnd.ms-excel"));
