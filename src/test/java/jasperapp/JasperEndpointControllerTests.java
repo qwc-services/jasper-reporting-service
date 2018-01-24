@@ -110,7 +110,7 @@ public class JasperEndpointControllerTests {
     @Test
     public void gettingReportsShouldReturnDefaultMessage() throws Exception {
 
-        MvcResult mvcResult = this.mockMvc.perform(get("/reports/rpt_example/?format=csv&personid=1")).andDo(print()).andExpect(status().isOk()).andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/reports/rpt_example/?format=html&personid=1")).andDo(print()).andExpect(status().isOk()).andReturn();
         String content = mvcResult.getResponse().getContentAsString();
         System.out.println(content);
     }
