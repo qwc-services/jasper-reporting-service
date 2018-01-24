@@ -19,7 +19,7 @@ image:https://travis-ci.org/nabbl/jasper-reporting-service.svg?branch=master["Bu
 You'll build a service that will accept HTTP GET requests at:
 
 ----
-http://localhost:8080/reports/rpt_example/?format=pdf&personid=0
+http://localhost:8080/reports/rpt_example/?format=pdf&personid=1
 ----
 
 and respond with a link:Jasper Report Document in the format you specified
