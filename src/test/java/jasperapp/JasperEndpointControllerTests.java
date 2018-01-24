@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -32,8 +33,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -110,9 +114,73 @@ public class JasperEndpointControllerTests {
     @Test
     public void gettingReportsShouldReturnDefaultMessage() throws Exception {
 
-        MvcResult mvcResult = this.mockMvc.perform(get("/reports/rpt_example/?format=html&personid=1")).andDo(print()).andExpect(status().isOk()).andReturn();
+        this.mockMvc.perform(get("/reports/rpt_example/?format=pdf&personid=1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void gettingReportsShouldReturnTheCorrectFormat() throws Exception {
+        /* HTML */
+        this.mockMvc.perform(get("/reports/rpt_example/?format=html&personid=1")
+                .accept(MediaType.TEXT_HTML)
+                .contentType(MediaType.TEXT_HTML_VALUE))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html"));
+
+        /* CSV */
+        this.mockMvc.perform(get("/reports/rpt_example/?format=csv&personid=1")
+                .accept(MediaType.TEXT_PLAIN)
+                .contentType(MediaType.APPLICATION_XML))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/csv"));
+
+        /* PDF */
+        this.mockMvc.perform(get("/reports/rpt_example/?format=pdf&personid=1")
+                .accept(MediaType.TEXT_PLAIN)
+                .contentType(MediaType.APPLICATION_XML))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/pdf"));
+
+        /* CSV */
+        this.mockMvc.perform(get("/reports/rpt_example/?format=xls&personid=1")
+                .accept(MediaType.TEXT_PLAIN)
+                .contentType(MediaType.APPLICATION_XML))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/vnd.ms-excel"));
+    }
+
+    @Test
+    public void gettingReportsShouldAcceptParameters() throws Exception {
+
+        /* Should select first person */
+
+        MvcResult mvcResult = this.mockMvc.perform(get("/reports/rpt_example/?format=csv&personid=1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
         String content = mvcResult.getResponse().getContentAsString();
-        System.out.println(content);
+
+        assertTrue(content.contains("Jose"));
+        assertFalse(content.contains("Obelix"));
+
+        /* Should select second person */
+
+        MvcResult mvcResult2 = this.mockMvc.perform(get("/reports/rpt_example/?format=csv&personid=2"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content2 = mvcResult2.getResponse().getContentAsString();
+
+        assertFalse(content2.contains("Jose"));
+        assertTrue(content2.contains("Obelix"));
+
     }
 
 
