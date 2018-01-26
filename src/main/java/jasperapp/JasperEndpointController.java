@@ -35,8 +35,18 @@ public class JasperEndpointController {
 
         // connecting to H2
         modelMap.put(DATASOURCE, dataSource);
-//
-        map.forEach( (String k, String[] v) -> modelMap.put(k, v[0]));
+
+        map.forEach((String k, String[] v) -> {
+            if (v[0].matches("\\d+")) {
+                //its a number:
+                modelMap.put(k, Integer.parseInt(v[0]));
+            } else {
+                modelMap.put(k, v[0]);
+            }
+        });
+
+        // This can be used in JasperReports to have absolute Image Paths
+        modelMap.put("ROOT_DIR", System.getProperty("user.dir"));
 
         //It is important that the underlying Jasper Report supports the Query parameters
 

@@ -1,6 +1,7 @@
 package jasperapp;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
@@ -21,10 +22,14 @@ public class Config extends WebMvcConfigurerAdapter {
         configurer.enable();
     }
 
-    private String uploadLocation = System.getProperty("user.dir") + "/reports/";
+
+    @Value("${reports.directory}")
+    private String reportsDirectory;
 
     @Bean
     public JasperReportsViewResolver getJasperReportsViewResolver() {
+
+        String uploadLocation = System.getProperty("user.dir") + reportsDirectory;
 
         JasperReportsViewResolver resolver = new JasperReportsViewResolver();
 
@@ -32,9 +37,8 @@ public class Config extends WebMvcConfigurerAdapter {
         resolver.setSuffix(".jrxml");
 
         resolver.setReportDataKey("datasource");
-        resolver.setViewNames("rpt_*");
+        resolver.setViewNames("*");
         resolver.setViewClass(JasperReportsMultiFormatView.class);
-
 
         resolver.setOrder(0);
         return resolver;
@@ -49,4 +53,5 @@ public class Config extends WebMvcConfigurerAdapter {
         resolver.setOrder(1);
         return resolver;
     }
+
 }
