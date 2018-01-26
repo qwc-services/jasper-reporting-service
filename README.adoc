@@ -19,16 +19,16 @@ image:https://travis-ci.org/nabbl/jasper-reporting-service.svg?branch=master["Bu
 You'll build a service that will accept HTTP GET requests at:
 
 ----
-http://localhost:8080/reports/rpt_example/?format=pdf&personid=1
+http://localhost:8080/reports/PieChartReport/?format=pdf&MaxOrderID=10800
 ----
 
-and respond with a link:Jasper Report Document in the format you specified
+and respond with a link:Jasper Report Document in the format you specified (`pdf / html / csv / xls / xlsx`)
 
 
 You can customize the request with optional `parameters` in the query string:
 
 ----
-http://localhost:8080/reports/rpt_example/?format=pdf&personid=1&param1=test&param2=tester
+http://localhost:8080/reports/PieChartReport/?format=pdf&MaxOrderID=10800&ReportTitle=test&param2=test&param3=test
 ----
 
 It is important that these parameters are supported in the SQL query string in the underlying `.jrxml` Jasper template
@@ -36,10 +36,9 @@ It is important that these parameters are supported in the SQL query string in t
 == What you'll need
 
 - java_version: 1.8
-- maven: >3:
+- maven: >3: (for building the project if you wish to)
 
-== How to run it
-
+== How to build it
 
 use the following command in the cloned directory:
 
@@ -47,17 +46,43 @@ use the following command in the cloned directory:
 mvn package
 ----
 
-It's generating a JAR-file (e.g. jasper-reporting-service-0.1.0.jar) in the target directory
+== How to run the DEMO package
 
-run with
+Download the latest release from here: https://github.com/nabbl/jasper-reporting-service/releases[Releases]
 
-----
-java -jar target/jasper-reporting-service-0.1.0.jar:
-----
+Download the "config" and "demo" directories from https://github.com/nabbl/jasper-reporting-service/[github]
 
-test with
+Folder structure should look like this:
 
 ----
-http://localhost:8080/reports/rpt_example/?format=pdf&id=1
+- config
+    --application.properties
+- demo
+    --data
+    --fonts
+    --images
+    --reports
+- jasper-reporting-service.jar
 ----
 
+Install the FONTS on your system from `demo/fonts`
+
+Run SQL from `data/h2_data.sql` against your Demo-Database (in-memory H2 database is pre-configured!)
+
+If you wish to use the pre-configured H2 database activate the "h2 console" in `config/application.properties` and run the SQL script  in the GUI: `localhost:8080/h2`
+
+Run with command:
+
+----
+java -jar jasper-reporting-service.jar:
+----
+
+test with:
+
+----
+http://localhost:8080/reports/PieChartReport/?format=pdf&MaxOrderID=10800
+----
+
+You should get a nice looking PDF-Report looking like this:
+
+image::/demo/images/example_pdf_report.png[]
