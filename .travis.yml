@@ -6,8 +6,8 @@ jdk:
 - oraclejdk8
 
 before_deploy:
-  - git config --local user.name "nabbl"
-  - git config --local user.email "dakappler@gmail.com"
+  - git config --local user.name "travis"
+  - git config --local user.email "noreply@sourcepole.com"
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
   - mvn package
 

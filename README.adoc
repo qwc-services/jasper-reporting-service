@@ -1,20 +1,17 @@
 ---
-tags: [rest]
-projects: [spring-framework]
 ---
 :spring_version: current
-:toc:
 :project_id: gs-rest-service
 :spring_version: current
 :spring_boot_version: 1.5.9.RELEASE
 :icons: font
 :source-highlighter: prettify
 
-== Travis-CI
+= Jasper Reporting Service
 
-image:https://travis-ci.org/nabbl/jasper-reporting-service.svg?branch=master["Build Status", link="https://travis-ci.org/nabbl/jasper-reporting-service"]
+image:https://travis-ci.org/sourcepole/jasper-reporting-service.svg?branch=master["Build Status", link="https://travis-ci.org/sourcepole/jasper-reporting-service"]
 
-== What you'll build
+== Usage
 
 You'll build a service that will accept HTTP GET requests at:
 
@@ -33,7 +30,7 @@ http://localhost:8080/reports/PieChartReport/?format=pdf&MaxOrderID=10800&Report
 
 It is important that these parameters are supported in the SQL query string in the underlying `.jrxml` Jasper template
 
-== What you'll need
+== Build requirements
 
 - java_version: 1.8
 - maven: >3: (for building the project if you wish to)
@@ -48,9 +45,9 @@ mvn package
 
 == How to run the DEMO package
 
-Download the latest release from here: https://github.com/nabbl/jasper-reporting-service/releases[Releases]
+Download the latest release from here: https://github.com/sourcepole/jasper-reporting-service/releases[Releases]
 
-Download the "config" and "demo" directories from https://github.com/nabbl/jasper-reporting-service/[github]
+Download the "config" and "demo" directories from https://github.com/sourcepole/jasper-reporting-service/[github]
 
 Folder structure should look like this:
 
