@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20"
+              topMargin="20" bottomMargin="20" uuid="4e34f802-603b-4276-a595-e3ec3dd6448c">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="pumpkin"/>
+    <parameter name="personid" class="java.lang.String"/>
+    <!---->
+    <queryString language="SQL">
+        <![CDATA[select id, name from person where id = $P{personid}]]>
+    </queryString>
+    <field name="name" class="java.lang.String">
+        <fieldDescription><![CDATA[]]></fieldDescription>
+    </field>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="57" splitType="Stretch">
+            <staticText>
+                <reportElement x="202" y="20" width="150" height="30" uuid="88588d1d-1d12-4e68-b052-2c26e68fbe5d"/>
+                <textElement textAlignment="Center">
+                    <font size="16"/>
+                </textElement>
+                <text><![CDATA[Data Report]]></text>
+            </staticText>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="25" splitType="Stretch">
+            <textField>
+                <reportElement x="450" y="0" width="100" height="15" uuid="2228582e-acc0-49f1-a05b-24794f17a306"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Page : " +$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="32" splitType="Stretch">
+            <property name="com.jaspersoft.studio.layout"
+                      value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+            <staticText>
+                <reportElement x="0" y="0" width="141" height="32" uuid="343a022a-0507-45bb-aa54-b643156b923b"/>
+                <box bottomPadding="2"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[PERSON NAME]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="52" splitType="Stretch">
+            <property name="com.jaspersoft.studio.layout"
+                      value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+            <textField>
+                <reportElement mode="Opaque" x="0" y="0" width="141" height="52"
+                               uuid="e3b196a1-c2be-4171-a6ff-b92d0f03ab15"/>
+                <box rightPadding="2"/>
+                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="45" splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band height="58" splitType="Stretch">
+            <staticText>
+                <reportElement x="-11" y="24" width="100" height="16" uuid="5f799d4e-e398-4ae9-9b6d-731f9cfcbf32"/>
+                <text><![CDATA[ © Daniel Kappler]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="450" y="20" width="100" height="15" uuid="583942ca-6e03-4149-81e3-e809d6078644"/>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+</jasperReport>

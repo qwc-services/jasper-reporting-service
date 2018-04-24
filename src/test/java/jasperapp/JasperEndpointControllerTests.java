@@ -121,6 +121,14 @@ public class JasperEndpointControllerTests {
     }
 
     @Test
+    public void gettingReportsInSubfolderShouldReturnDefaultMessage() throws Exception {
+
+        this.mockMvc.perform(get("/reports/subfolder/rpt_example/?format=pdf&personid=1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void gettingReportsShouldReturnTheCorrectFormat() throws Exception {
         /* HTML */
         this.mockMvc.perform(get("/reports/rpt_example/?format=html&personid=1"))

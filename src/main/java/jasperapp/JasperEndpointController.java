@@ -27,11 +27,16 @@ public class JasperEndpointController {
     private DataSource dataSource;
 
     /* Example http://localhost:8080/reports/rpt_example/?format=pdf&personid=0 */
+    /* Example http://localhost:8080/reports/rpt_subfolder/rpt_example/?format=pdf&personid=0 */
 
-    @RequestMapping(value = "/{reportname}/**", method = RequestMethod.GET)
-    public ModelAndView getRptByParam(final ModelMap modelMap, ModelAndView modelAndView, @PathVariable("reportname") final String reportname,  HttpServletRequest request) {
+    @RequestMapping(value = {"/{reportname}/", "/{reportfolder}/{reportname}/"}, method = RequestMethod.GET)
+    public ModelAndView getRptByParam(final ModelMap modelMap, ModelAndView modelAndView, @PathVariable Map<String, String> pathVariables,  HttpServletRequest request) {
 
         Map<String, String[]> map = request.getParameterMap();
+        String reportfolder = pathVariables.get("reportfolder");
+        String reportname = pathVariables.get("reportname");
+
+        String report = reportfolder != null ? reportfolder + "/" + reportname : reportname;
 
         // connecting to H2
         modelMap.put(DATASOURCE, dataSource);
@@ -50,7 +55,7 @@ public class JasperEndpointController {
 
         //It is important that the underlying Jasper Report supports the Query parameters
 
-        modelAndView = new ModelAndView(reportname, modelMap);
+        modelAndView = new ModelAndView(report, modelMap);
         return modelAndView;
     }
 }
