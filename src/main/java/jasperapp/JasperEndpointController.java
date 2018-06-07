@@ -51,7 +51,7 @@ public class JasperEndpointController {
         });
 
         // This can be used in JasperReports to have absolute Image Paths
-        modelMap.put("ROOT_DIR", System.getProperty("user.dir"));
+        modelMap.put("ROOT_DIR", System.getProperty("user.dir") + "/reports" + (reportfolder != null ? "/" + reportfolder : ""));
 
         //It is important that the underlying Jasper Report supports the Query parameters
 
