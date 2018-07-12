@@ -59,7 +59,10 @@ Folder structure should look like this:
     --fonts
     --images
     --reports
-- jasper-reporting-service.jar
+- reports
+    --demo
+        --images
+- jasper-reporting-service-0.3.1.jar
 ----
 
 Install the FONTS on your system from `demo/fonts`
@@ -71,7 +74,7 @@ If you wish to use the pre-configured H2 database activate the "h2 console" in `
 Run with command:
 
 ----
-java -jar jasper-reporting-service.jar:
+java -jar jasper-reporting-service-0.3.1.jar
 ----
 
 test with:
