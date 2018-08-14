@@ -3,6 +3,8 @@ package jasperapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,19 +14,47 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
 
 
 @RestController
 @RequestMapping(value = "/reports")
 public class JasperEndpointController {
-    private static final String FILE_FORMAT = "format";
-
-    private static final String DATASOURCE = "datasource";
-
     @Autowired
     @Qualifier("dataSource")
     private DataSource dataSource;
+
+    @Autowired
+    @Qualifier("dataSource1")
+    private DataSourceProperties dataSource1;
+
+    @Autowired
+    @Qualifier("dataSource2")
+    private DataSourceProperties dataSource2;
+
+    @Autowired
+    @Qualifier("dataSource3")
+    private DataSourceProperties dataSource3;
+
+    @Autowired
+    @Qualifier("dataSource4")
+    private DataSourceProperties dataSource4;
+
+    private Connection getConnection(DataSourceProperties props) {
+        try{
+            return DataSourceBuilder.create()
+                .driverClassName(props.getDriverClassName())
+                .url(props.getUrl())
+                .username(props.getUsername())
+                .password(props.getPassword())
+                .build()
+                .getConnection();
+        } catch(SQLException err) {
+            return null;
+        }
+    }
 
     /* Example http://localhost:8080/reports/rpt_example/?format=pdf&personid=0 */
     /* Example http://localhost:8080/reports/rpt_subfolder/rpt_example/?format=pdf&personid=0 */
@@ -38,8 +68,11 @@ public class JasperEndpointController {
 
         String report = reportfolder != null ? reportfolder + "/" + reportname : reportname;
 
-        // connecting to H2
-        modelMap.put(DATASOURCE, dataSource);
+        modelMap.put("datasource",  dataSource);
+        modelMap.put("dataconn1", getConnection(dataSource1));
+        modelMap.put("dataconn2", getConnection(dataSource2));
+        modelMap.put("dataconn3", getConnection(dataSource3));
+        modelMap.put("dataconn4", getConnection(dataSource4));
 
         map.forEach((String k, String[] v) -> {
             if (v[0].matches("\\d+")) {
