@@ -9,7 +9,7 @@
 
 = Jasper Reporting Service
 
-image:https://travis-ci.org/sourcepole/jasper-reporting-service.svg?branch=master["Build Status", link="https://travis-ci.org/sourcepole/jasper-reporting-service"]
+image:https://travis-ci.org/qwc-services/jasper-reporting-service.svg?branch=master["Build Status", link="https://travis-ci.org/qwc-services/jasper-reporting-service"]
 
 == Usage
 
