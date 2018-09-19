@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
@@ -23,35 +25,53 @@ import java.util.Map;
 @RequestMapping(value = "/reports")
 public class JasperEndpointController {
     @Autowired
-    @Qualifier("dataSource")
-    private DataSource dataSource;
+    @Qualifier("dataSource0")
+    private DataSourceProperties dataSourceProps0;
 
     @Autowired
     @Qualifier("dataSource1")
-    private DataSourceProperties dataSource1;
+    private DataSourceProperties dataSourceProps1;
 
     @Autowired
     @Qualifier("dataSource2")
-    private DataSourceProperties dataSource2;
+    private DataSourceProperties dataSourceProps2;
 
     @Autowired
     @Qualifier("dataSource3")
-    private DataSourceProperties dataSource3;
+    private DataSourceProperties dataSourceProps3;
 
     @Autowired
     @Qualifier("dataSource4")
-    private DataSourceProperties dataSource4;
+    private DataSourceProperties dataSourceProps4;
+
+    private DataSource dataSource;
+    private Connection dataConn1;
+    private Connection dataConn2;
+    private Connection dataConn3;
+    private Connection dataConn4;
+    private boolean connectionsCreated = false;
+
+
+    private DataSource getDataSource(DataSourceProperties props) {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(props.getUrl());
+        config.setDriverClassName(props.getDriverClassName());
+        config.setUsername(props.getUsername());
+        config.setPassword(props.getPassword());
+        config.setMinimumIdle(1);
+        config.setMaximumPoolSize(5);
+
+        try {
+            return new HikariDataSource(config);
+        } catch(Exception e) {
+            return null;
+        }
+    }
 
     private Connection getConnection(DataSourceProperties props) {
-        try{
-            return DataSourceBuilder.create()
-                .driverClassName(props.getDriverClassName())
-                .url(props.getUrl())
-                .username(props.getUsername())
-                .password(props.getPassword())
-                .build()
-                .getConnection();
-        } catch(SQLException err) {
+        try {
+            return getDataSource(props).getConnection();
+        } catch(Exception e) {
             return null;
         }
     }
@@ -62,17 +82,27 @@ public class JasperEndpointController {
     @RequestMapping(value = {"/{reportname}/", "/{reportfolder}/{reportname}/"}, method = RequestMethod.GET)
     public ModelAndView getRptByParam(final ModelMap modelMap, ModelAndView modelAndView, @PathVariable Map<String, String> pathVariables,  HttpServletRequest request) {
 
+        if(!connectionsCreated) {
+            dataSource = getDataSource(dataSourceProps0);
+            dataConn1 = getConnection(dataSourceProps1);
+            dataConn2 = getConnection(dataSourceProps2);
+            dataConn3 = getConnection(dataSourceProps3);
+            dataConn4 = getConnection(dataSourceProps4);
+            connectionsCreated = true;
+        }
+
+
         Map<String, String[]> map = request.getParameterMap();
         String reportfolder = pathVariables.get("reportfolder");
         String reportname = pathVariables.get("reportname");
 
         String report = reportfolder != null ? reportfolder + "/" + reportname : reportname;
 
-        modelMap.put("datasource",  dataSource);
-        modelMap.put("dataconn1", getConnection(dataSource1));
-        modelMap.put("dataconn2", getConnection(dataSource2));
-        modelMap.put("dataconn3", getConnection(dataSource3));
-        modelMap.put("dataconn4", getConnection(dataSource4));
+        modelMap.put("datasource", dataSource);
+        modelMap.put("dataconn1", dataConn1);
+        modelMap.put("dataconn2", dataConn2);
+        modelMap.put("dataconn3", dataConn3);
+        modelMap.put("dataconn4", dataConn4);
 
         map.forEach((String k, String[] v) -> {
             if (v[0].matches("\\d+")) {
