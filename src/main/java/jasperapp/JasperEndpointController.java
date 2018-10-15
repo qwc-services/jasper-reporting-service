@@ -3,6 +3,7 @@ package jasperapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.ui.ModelMap;
@@ -18,7 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 
 @RestController
@@ -50,6 +54,9 @@ public class JasperEndpointController {
     private Connection dataConn3;
     private Connection dataConn4;
     private boolean connectionsCreated = false;
+
+    @Value("${reports.locale:en_US}")
+    private String reportsLocale;
 
 
     private DataSource getDataSource(DataSourceProperties props) {
@@ -116,10 +123,16 @@ public class JasperEndpointController {
         // This can be used in JasperReports to have absolute Image Paths
         modelMap.put("ROOT_DIR", System.getProperty("user.dir") + "/reports" + (reportfolder != null ? "/" + reportfolder : ""));
 
+        // Set locale
+        Matcher matcher = Pattern.compile("^([a-z]{2,3})_([A-Z]{2,3})$").matcher(reportsLocale);
+        if(matcher.find()) {
+            System.out.println("** Report locale: " + reportsLocale);
+            modelMap.put("REPORT_LOCALE", new Locale(matcher.group(1), matcher.group(2)));
+        }
+
         //It is important that the underlying Jasper Report supports the Query parameters
 
         modelAndView = new ModelAndView(report, modelMap);
         return modelAndView;
     }
 }
-
