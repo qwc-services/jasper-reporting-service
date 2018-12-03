@@ -12,14 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import java.io.File;
+import java.lang.reflect.Constructor;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.AbstractCollection;
 import java.util.Locale;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -47,6 +57,9 @@ public class JasperEndpointController {
     @Autowired
     @Qualifier("dataSource4")
     private DataSourceProperties dataSourceProps4;
+
+    @Value("${reports.directory}")
+    private String reportsDirectory;
 
     private DataSource dataSource;
     private Connection dataConn1;
@@ -111,11 +124,60 @@ public class JasperEndpointController {
         modelMap.put("dataconn3", dataConn3);
         modelMap.put("dataconn4", dataConn4);
 
+        // Attempt to parse jrxml to get parameter types
+        Map<String, String> parameterTypes = new HashMap<String,String>();
+        Map<String, String> parameterNestedTypes = new HashMap<String,String>();
+        try {
+            String filename = System.getProperty("user.dir") + reportsDirectory + "/" + report + ".jrxml";
+            File inputFile = new File(filename);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            NodeList nList = doc.getElementsByTagName("parameter");
+            for (int i = 0; i < nList.getLength(); ++i) {
+                Element eElement = (Element) nList.item(i);
+                String paramName = eElement.getAttribute("name");
+                String paramClass = eElement.getAttribute("class");
+                String paramNestedType = eElement.getAttribute("nestedType");
+
+                parameterTypes.put(paramName, paramClass);
+                parameterNestedTypes.put(paramName, paramNestedType);
+                System.out.println("** Report parameter " + paramName + ": " + paramClass + (!paramNestedType.isEmpty() ? "[" + paramNestedType + "]" : ""));
+            }
+        } catch(Exception e) {
+            System.err.println("Error: Failed to parse report parameters " + e);
+        }
+
+        // Insert parameters into model map
         map.forEach((String k, String[] v) -> {
-            if (v[0].matches("\\d+")) {
-                //its a number:
-                modelMap.put(k, Integer.parseInt(v[0]));
+            if(parameterTypes.containsKey(k)) {
+                try {
+                    String paramType = parameterTypes.get(k);
+                    String paramNestedType = parameterNestedTypes.get(k);
+                    if(!paramNestedType.isEmpty()) {
+                        // Is a collection
+                        Class collectionClass = Class.forName(paramType);
+                        Class nestedClass = Class.forName(paramNestedType);
+                        Constructor collectionConstructor = collectionClass.getConstructor();
+                        Constructor nestedConstructor = nestedClass.getConstructor(String.class);
+                        AbstractCollection<Object> collection = (AbstractCollection<Object>) collectionConstructor.newInstance();
+                        for(int i = 0; i < v.length; ++i) {
+                            collection.add(nestedConstructor.newInstance(v[i]));
+                        }
+                        modelMap.put(k, collection);
+                    } else {
+                        // Is a single value
+                        Class paramClass = Class.forName(paramType);
+                        Constructor paramConstructor = paramClass.getConstructor(String.class);
+                        modelMap.put(k, paramConstructor.newInstance(v[0]));
+                    }
+                } catch(Exception e) {
+                    System.err.println("Error: Failed to construct parameter " + k + ": " + e);
+                }
             } else {
+                if(!k.equals("format")) {
+                  System.err.println("Warning: Parameter " + k + " not declared in report, assuming type java.lang.String");
+                }
                 modelMap.put(k, v[0]);
             }
         });
