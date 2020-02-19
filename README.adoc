@@ -11,6 +11,33 @@
 
 image:https://travis-ci.org/qwc-services/jasper-reporting-service.svg?branch=master["Build Status", link="https://travis-ci.org/qwc-services/jasper-reporting-service"]
 
+== Docker usage
+
+Run docker image
+^^^^^^^^^^^^^^^^
+....
+docker run \
+  -p 8080:8080 \
+  -v /PATH/TO/CONFIG_FILE:/srv/qwc_service/config/application.properties:ro \
+  -v /PATH/TO/REPORTS:/srv/qwc_service/PATH_DEFINED_IN_CONFIG:ro
+  sourcepole/jasper-reporting-service
+....
+
+[width="100%",cols="63%,37%",options="header",]
+|=======================================================================
+|docker parameters |Description
+
+|`-p 8080:8080` |This binds port 8080 of the container to port 8080 on 127.0.0.1 of the host machine.
+|`-v /PATH/TO/CONFIG:/srv/qwc_service/config/application.properties:ro` |Mount your config file to /srv/qwc_service/config/application.properties with read only mode
+|`-v /PATH/TO/REPORTS:/srv/qwc_service/PATH_DEFINED_IN_CONFIG:ro` |Mount your reports directory to /srv/qwc_service/PATH_DEFINED_IN_CONFIG with read only mode
+|=======================================================================
+
+Build docker image locally:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+....
+docker build . --build-arg JASPER_SERVICE_URL=LINK_TO_JASPER_REPORTING_SERVICE_JAR
+....
+
 == Usage
 
 You'll build a service that will accept HTTP GET requests at:
@@ -57,7 +84,6 @@ Folder structure should look like this:
 - demo
     --data
     --fonts
-    --images
     --reports
 - jasper-reporting-service.jar
 ----
