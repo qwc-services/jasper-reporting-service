@@ -183,7 +183,7 @@ public class JasperEndpointController {
         });
 
         // This can be used in JasperReports to have absolute Image Paths
-        modelMap.put("ROOT_DIR", System.getProperty("user.dir") + "/reports" + (reportfolder != null ? "/" + reportfolder : ""));
+        modelMap.put("ROOT_DIR", System.getProperty("user.dir") + "/" + reportsDirectory + (reportfolder != null ? "/" + reportfolder : ""));
 
         // Set locale
         Matcher matcher = Pattern.compile("^([a-z]{2,3})_([A-Z]{2,3})$").matcher(reportsLocale);
