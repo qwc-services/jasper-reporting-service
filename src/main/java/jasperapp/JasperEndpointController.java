@@ -128,7 +128,7 @@ public class JasperEndpointController {
         Map<String, String> parameterTypes = new HashMap<String,String>();
         Map<String, String> parameterNestedTypes = new HashMap<String,String>();
         try {
-            String filename = System.getProperty("user.dir") + reportsDirectory + "/" + report + ".jrxml";
+            String filename = System.getProperty("user.dir") + "/" + reportsDirectory + "/" + report + ".jrxml";
             File inputFile = new File(filename);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

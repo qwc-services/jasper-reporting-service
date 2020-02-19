@@ -29,7 +29,7 @@ public class Config extends WebMvcConfigurerAdapter {
     @Bean
     public JasperReportsViewResolver getJasperReportsViewResolver() {
 
-        String uploadLocation = System.getProperty("user.dir") + reportsDirectory;
+        String uploadLocation = System.getProperty("user.dir") + "/" + reportsDirectory;
 
         JasperReportsViewResolver resolver = new JasperReportsViewResolver();
 
