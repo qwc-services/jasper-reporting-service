@@ -244,7 +244,7 @@
             </staticText>
             <image scaleImage="RetainShape" hAlign="Left" vAlign="Middle">
                 <reportElement x="0" y="0" width="758" height="50"/>
-                <imageExpression><![CDATA[$P{ROOT_DIR}+"/demo/images/sourcepole.jpg"]]></imageExpression>
+		<imageExpression><![CDATA[$P{ROOT_DIR}+"/sourcepole.jpg"]]></imageExpression>
             </image>
         </band>
     </title>
