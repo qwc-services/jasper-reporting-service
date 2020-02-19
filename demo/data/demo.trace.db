@@ -1,0 +1,3 @@
+2020-02-19 10:30:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "ORDERS" not found; SQL statement:
+SELECT * FROM Orders WHERE OrderID <= ? ORDER BY ShipCountry [42102-196]
