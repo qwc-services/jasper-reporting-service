@@ -9,7 +9,7 @@
 
 = Jasper Reporting Service
 
-image:https://travis-ci.org/qwc-services/jasper-reporting-service.svg?branch=master["Build Status", link="https://travis-ci.org/qwc-services/jasper-reporting-service"]
+image:https://github.com/qwc-services/jasper-reporting-service/workflows/Build%20service%20JAR%20and%20build/deploy%20docker%20image/badge.svg["Build Status", link="https://github.com/qwc-services/jasper-reporting-service/actions"]
 
 == Usage
 
