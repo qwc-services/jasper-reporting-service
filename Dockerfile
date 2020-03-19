@@ -9,12 +9,11 @@ RUN apk add --no-cache --update openjdk8 ttf-dejavu
 ARG JASPER_SERVICE_URL
 ARG AUTH_TOKEN
 
-RUN mkdir /srv/qwc_service/ \
-    mkdir /srv/qwc_service/config
+RUN mkdir -p /srv/jasper-reporting-service/config
 
-RUN wget -O /srv/qwc_service/jasper-reporting-service.jar --header="PRIVATE-TOKEN: $AUTH_TOKEN" "$JASPER_SERVICE_URL"
+WORKDIR /srv/jasper-reporting-service
 
-WORKDIR /srv/qwc_service
+RUN wget -O jasper-reporting-service.jar --header="PRIVATE-TOKEN: $AUTH_TOKEN" "$JASPER_SERVICE_URL"
 
 # Run service
 ENTRYPOINT ["java", "-DJava.awt.headless=true", "-jar", "jasper-reporting-service.jar"]
