@@ -108,4 +108,4 @@ http://localhost:8080/reports/PieChartReport/?format=pdf&MaxOrderID=10800
 
 You should get a nice looking PDF-Report looking like this:
 
-image::/demo/images/example_pdf_report.png[]
+image::/demo/reports/example_pdf_report.png[]
