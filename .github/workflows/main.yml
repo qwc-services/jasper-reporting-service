@@ -5,6 +5,8 @@ on: [push]
 jobs:
     build_jar:
       runs-on: ubuntu-latest
+      outputs:
+        jar_download_url: ${{ steps.upload_release.outputs.browser_download_url }}
       steps:
       - uses: actions/checkout@v2
 
@@ -68,6 +70,7 @@ jobs:
           echo "##[set-output name=name;]$NAME"
 
       - name: Upload release asset
+        id: upload_release
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -98,10 +101,10 @@ jobs:
             echo ::set-output name=tag::latest
           fi
 
-      - name: Publish to Registry
+      - name: Build and publish docker image
         uses: elgohr/Publish-Docker-Github-Action@2.12
         env:
-          JASPER_SERVICE_URL: https://github.com/qwc-services/jasper-reporting-service/releases/download/ci-latest-master/jasper-reporting-service-0.5.1.jar
+          JASPER_SERVICE_URL: ${{needs.build_jar.outputs.jar_download_url}}
         with:
           name: sourcepole/${{ github.event.repository.name }}
           username: ${{ secrets.DOCKER_HUB_USER }}
