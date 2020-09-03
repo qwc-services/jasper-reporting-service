@@ -10,34 +10,35 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class DBConfig {
-    @Bean
+
+    @Bean(name = "dataSource0")
     @Primary
     @ConfigurationProperties("spring.datasource0")
-    public DataSourceProperties dataSource0() {
-        return new DataSourceProperties();
+    public DataSource dataSource0() {
+        return DataSourceBuilder.create().build();
     }
 
-    @Bean
+    @Bean(name = "dataSource1")
     @ConfigurationProperties("spring.datasource1")
-    public DataSourceProperties dataSource1() {
-        return new DataSourceProperties();
+    public DataSource dataSource1() {
+        return DataSourceBuilder.create().build();
     }
 
-    @Bean
+    @Bean(name = "dataSource2")
     @ConfigurationProperties("spring.datasource2")
-    public DataSourceProperties dataSource2() {
-        return new DataSourceProperties();
+    public DataSource dataSource2() {
+        return DataSourceBuilder.create().build();
     }
 
-    @Bean
+    @Bean(name = "dataSource3")
     @ConfigurationProperties("spring.datasource3")
-    public DataSourceProperties dataSource3() {
-        return new DataSourceProperties();
+    public DataSource dataSource3() {
+        return DataSourceBuilder.create().build();
     }
 
-    @Bean
+    @Bean(name = "dataSource4")
     @ConfigurationProperties("spring.datasource4")
-    public DataSourceProperties dataSource4() {
-        return new DataSourceProperties();
+    public DataSource dataSource4() {
+        return DataSourceBuilder.create().build();
     }
 }
