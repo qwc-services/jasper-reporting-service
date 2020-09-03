@@ -20,7 +20,7 @@ jobs:
           mvn install:install-file -Dfile=demo/fonts/fonts-extension.jar -DgroupId=local.jasperFontOverrides -DartifactId=local.jasperFontOverrides -Dversion=1.0 -Dpackaging=jar -DlocalRepositoryPath=$HOME/.m2/repository
       - name: Build jar with maven
         run:
-          mvn package -Dmaven.wagon.http.ssl.ignore.validity.dates=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.insecure=true
+          mvn package
 
       - name: Version number
         id: version_number
