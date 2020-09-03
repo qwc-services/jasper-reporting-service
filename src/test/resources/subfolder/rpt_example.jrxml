@@ -5,7 +5,7 @@
               name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20"
               topMargin="20" bottomMargin="20" uuid="4e34f802-603b-4276-a595-e3ec3dd6448c">
     <property name="com.jaspersoft.studio.data.defaultdataadapter" value="pumpkin"/>
-    <parameter name="personid" class="java.lang.String"/>
+    <parameter name="personid" class="java.lang.Integer"/>
     <!---->
     <queryString language="SQL">
         <![CDATA[select id, name from person where id = $P{personid}]]>
