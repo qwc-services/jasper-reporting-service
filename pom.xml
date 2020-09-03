@@ -146,7 +146,7 @@
         </repository>
         <repository>
             <id>jr-ce-releases</id>
-            <url>https://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-releases/</url>
+            <url>https://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases/</url>
         </repository>
     </repositories>
     <pluginRepositories>
