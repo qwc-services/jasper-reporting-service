@@ -50,7 +50,7 @@ public class JasperEndpointControllerTests {
     private MockMvc mockMvc;
 
     @Autowired
-    @Qualifier("dataSource")
+    @Qualifier("dataSource0")
     private DataSource dataSource;
 
     @Before
