@@ -39,6 +39,13 @@ import java.util.regex.Matcher;
 @RequestMapping(value = "/reports")
 public class JasperEndpointController {
 
+    private DataSource dataSource;
+    private Connection dataConn1;
+    private Connection dataConn2;
+    private Connection dataConn3;
+    private Connection dataConn4;
+    private boolean connectionsCreated = false;
+
     @Autowired
     @Qualifier("dataSource0")
     private DataSource dataSource0;
@@ -85,11 +92,19 @@ public class JasperEndpointController {
 
         String report = reportfolder != null ? reportfolder + "/" + reportname : reportname;
 
+        if(!connectionsCreated) {
+            dataConn1 = getConnection(dataSource1);
+            dataConn2 = getConnection(dataSource2);
+            dataConn3 = getConnection(dataSource3);
+            dataConn4 = getConnection(dataSource4);
+            connectionsCreated = true;
+        }
+
         modelMap.put("datasource", dataSource0);
-        modelMap.put("dataconn1", getConnection(dataSource1));
-        modelMap.put("dataconn2", getConnection(dataSource2));
-        modelMap.put("dataconn3", getConnection(dataSource3));
-        modelMap.put("dataconn4", getConnection(dataSource4));
+        modelMap.put("dataconn1", dataConn1);
+        modelMap.put("dataconn2", dataConn2);
+        modelMap.put("dataconn3", dataConn3);
+        modelMap.put("dataconn4", dataConn4);
 
         // Attempt to parse jrxml to get parameter types
         Map<String, String> parameterTypes = new HashMap<String,String>();
