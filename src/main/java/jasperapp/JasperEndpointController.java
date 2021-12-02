@@ -46,23 +46,23 @@ public class JasperEndpointController {
     private Connection dataConn4;
     private boolean connectionsCreated = false;
 
-    @Autowired
+    @Autowired(required=true)
     @Qualifier("dataSource0")
     private DataSource dataSource0;
 
-    @Autowired
+    @Autowired(required=false)
     @Qualifier("dataSource1")
     private DataSource dataSource1;
 
-    @Autowired
+    @Autowired(required=false)
     @Qualifier("dataSource2")
     private DataSource dataSource2;
 
-    @Autowired
+    @Autowired(required=false)
     @Qualifier("dataSource3")
     private DataSource dataSource3;
 
-    @Autowired
+    @Autowired(required=false)
     @Qualifier("dataSource4")
     private DataSource dataSource4;
 
