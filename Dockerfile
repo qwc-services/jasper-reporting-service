@@ -1,5 +1,5 @@
 # Jasper reports service
-FROM sourcepole/qwc-uwsgi-base:alpine-v2022.01.08
+FROM sourcepole/qwc-uwsgi-base:alpine-v2022.01.26
 
 # Required for downloading jasper-reporting-service.jar
 RUN apk add --no-cache --update wget
