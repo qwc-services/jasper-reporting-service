@@ -102,7 +102,8 @@ jobs:
           fi
 
       - name: Build and publish docker image
-        uses: elgohr/Publish-Docker-Github-Action@2.12
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        if: github.event_name != 'pull_request'
         env:
           JASPER_SERVICE_URL: ${{needs.build_jar.outputs.jar_download_url}}
         with:
