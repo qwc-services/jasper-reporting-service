@@ -1,4 +1,4 @@
-FROM sourcepole/qwc-uwsgi-base:alpine-v2023.06.08
+FROM sourcepole/qwc-uwsgi-base:alpine-v2023.10.24
 
 ARG JASPER_SERVICE_URL
 ARG AUTH_TOKEN
