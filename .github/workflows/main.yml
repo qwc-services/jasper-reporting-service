@@ -97,7 +97,7 @@ jobs:
         id: get_tag
         run: |
           if [ ${{ endsWith(github.ref, '-lts') }} = true ]; then
-            echo "tag=latest-lts,${GITHUB_REF:10}" >>$GITHUB_OUTPUT
+            echo "tag=latest-lts,latest-${GITHUB_REF:11:4}-lts,${GITHUB_REF:10}" >>$GITHUB_OUTPUT
           else
             echo "tag=latest,${GITHUB_REF:10}" >>$GITHUB_OUTPUT
           fi
