@@ -1,3 +1,5 @@
+= THIS SERVICE IS OBSOLETE, ITS FUNCTIONALITY HAS BEEN INTEGRATED INTO THE qwc-document-service:v2024.09.15 and later
+
 ---
 ---
 :spring_version: current
